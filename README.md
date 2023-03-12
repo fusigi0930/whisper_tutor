@@ -16,10 +16,11 @@ pip install -r requirements.txt
 ```
 
 ## Windows
-in windows, it need install python3.9, ffmpeg, espeak and you can find this on the following web site:
+in windows, it need install python3.9, ffmpeg, espeak, visual studio 2022 community and you can find this on the following web site:
 ffmpeg: https://www.gyan.dev/ffmpeg/builds/
 python3.9: https://www.python.org/ftp/python/3.9.9/python-3.9.9-amd64.exe
 espeak: https://espeak.sourceforge.net/download.html
+visual studio 2022 community: https://visualstudio.microsoft.com/zh-hant/vs/community/
 
 notice: ffmpeg and espeak have to add into the PATH variable
 
