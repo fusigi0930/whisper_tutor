@@ -1,5 +1,7 @@
 
 # initial environment
+
+## Linux
 ```shell
 # python 3.9 (and later)
 sudo apt install python3.9
@@ -12,6 +14,22 @@ python -m venv env
 source env/bin/activate
 pip install -r requirements.txt
 ```
+
+## Windows
+in windows, it need install python3.9, ffmpeg, espeak and you can find this on the following web site:
+ffmpeg: https://www.gyan.dev/ffmpeg/builds/
+python3.9: https://www.python.org/ftp/python/3.9.9/python-3.9.9-amd64.exe
+espeak: https://espeak.sourceforge.net/download.html
+
+notice: ffmpeg and espeak have to add into the PATH variable
+
+```batch
+python.exe -m venv env
+call env/script/activate.bat
+pip install -r requirements.txt
+
+```
+
 # set the openai API
 you need create a openai account and create a secret key by yourself in this url
 https://platform.openai.com/account/api-keys
@@ -23,7 +41,16 @@ chatgpt_key = <your key>
 ```
 
 # run the tutor
+
+## Linux
 ```shell
+source env/bin/activate
 python tutor_en.py 2>/dev/null
+```
+
+## Windows
+```
+call env/script/activate.bat
+python tutor_en.py
 ```
 use this command, that contains speech recognize, tts in local side and use chatGPT 3.5 api to get a chat robot response.
