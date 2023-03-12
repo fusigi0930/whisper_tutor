@@ -1,0 +1,5 @@
+config.py
+*.wav
+*demo.py
+*.log
+__pycache__
