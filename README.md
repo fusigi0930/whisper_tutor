@@ -1,9 +1,15 @@
+this project makes human talk with ChatGPT, and running in windows/ubuntu system.
+it uses chatgpt-3.5-turbo model, before you use it, please generate a secret key
+from openai official website.
+
+** notice: chatgpt-3.5-turbo needs charge, 0.002 USD/1000 tokens about 750 words **
+** the words contain both of you and chatGPT response **
 
 # initial environment
 
 ## Linux
 ```shell
-# python 3.9 (and later)
+# python 3.9
 sudo apt install python3.9
 sudo apt install python3-testresources ffmpeg
 sudo apt install libpython3.9-dev portaudio19-dev pavucontrol espeak
@@ -38,7 +44,7 @@ https://platform.openai.com/account/api-keys
 copy your key into a file "config.py" with global variable chatgpt_key.
 e.g.
 ```python
-chatgpt_key = <your key>
+chatgpt_key = "<your key>"
 ```
 
 # run the tutor
