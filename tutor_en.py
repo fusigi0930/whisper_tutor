@@ -3,12 +3,15 @@ import os
 import sys
 import common as cm
 from contextlib import redirect_stderr
+import voice
+import utils
 
 def main():
-    cm.init()
+    v = voice.Voice()
+    log = utils.Log()
     while True:
         print("say something........")
-        text = cm.start_speech_recognise()
+        text = v.speech_recognise()
         if (len(text) == 0):
             continue
 
@@ -16,10 +19,10 @@ def main():
             return
 
         print(text)
-        cm.dlog("me: " + text)
+        log.dlog("me: " + text)
         text = cm.talk_to_chatgpt(text)
-        cm.speak_text(text)
-        cm.dlog("npc: " + text)
+        v.speak_text(text)
+        log.dlog("npc: " + text)
 
 if __name__ == "__main__":
     main()
