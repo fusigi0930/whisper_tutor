@@ -47,7 +47,7 @@ class Voice:
         self.model = "small"
         self.lang = "en"
 
-        self.tts = TTS("tts_models/en/vctk/vits")
+        self.tts = TTS("tts_models/en/vctk/vits", progress_bar=False, gpu=True)
         self.voice_id = self.__randomSpeaker()
         self.whisper_model = whisper.load_model(self.model+".en")
 
@@ -59,10 +59,16 @@ class Voice:
 
     def set_lang(self, lang):
         if lang == "en":
-            self.tts = TTS("tts_models/en/vctk/vits")
+            self.tts = TTS("tts_models/en/vctk/vits", progress_bar=False, gpu=True)
             self.voice_id = self.__randomSpeaker()
-            self.whisper_model = whisper.load_model(self.model+".en")
-        
+        elif lang == "zh":
+            self.tts = TTS("tts_models/zh-CN/baker/tacotron2-DDC-GST",
+                vocoder_path="vocoder_models/en/ljspeech/multiband-melgan",
+                progress_bar=False, gpu=True)
+        else:
+            return
+
+        self.lang = lang
 
     def start_speech_recognise(self):
         with self.mic_source:
@@ -160,7 +166,10 @@ class Voice:
         return res_text            
 
     def speak_text(self, t):
-        self.tts.tts_to_file(text=t, speaker=self.voice_id, file_path=self.tts_tmpfile)
+        if self.lang == "en":
+            self.tts.tts_to_file(text=t, speaker=self.voice_id, file_path=self.tts_tmpfile)
+        elif self.lang == "zh":
+            self.tts.tts_to_file(text="，" + t + "。", file_path=self.tts_tmpfile)
 
         w = wave.open(self.tts_tmpfile, "rb")
         p = pyaudio.PyAudio()
