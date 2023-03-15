@@ -15,7 +15,7 @@ def main():
         if (len(text) == 0):
             continue
 
-        if (text.lower() == "exit"):
+        if (text.lower()[0:4] == "exit"):
             return
 
         print(text)

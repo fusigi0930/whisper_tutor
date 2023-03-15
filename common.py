@@ -1,23 +1,11 @@
 import io
 import os
-import speech_recognition as sr
-import whisper
-import torch
-import sys
-import contextlib
-
-from TTS.api import TTS
-import pyaudio
-import wave
-
 import openai
 import config as c
-
-from tempfile import NamedTemporaryFile
-from sys import platform
-import time
+import re
 
 def talk_to_chatgpt(text):
+    openai.api_key = c.chatgpt_key
     message = [
         {
             "role": "user",
@@ -32,3 +20,4 @@ def talk_to_chatgpt(text):
 
     res_text = res.choices[0].message.content.replace('\n', '')
     return res_text
+

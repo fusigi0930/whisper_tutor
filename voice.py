@@ -19,6 +19,7 @@ import time
 from datetime import datetime, timedelta
 from queue import Queue
 import copy
+import random
 
 class Voice:
     def __init__(self):
@@ -47,13 +48,19 @@ class Voice:
         self.lang = "en"
 
         self.tts = TTS("tts_models/en/vctk/vits")
-        self.voice_id = "p243"
+        self.voice_id = self.__randomSpeaker()
         self.whisper_model = whisper.load_model(self.model+".en")
-    
+
+    def __randomSpeaker(self):
+        size = len(self.tts.speakers)
+        idx = random.randint(0, size-1)
+        return self.tts.speakers[idx]
+
+
     def set_lang(self, lang):
         if lang == "en":
             self.tts = TTS("tts_models/en/vctk/vits")
-            self.voice_id = "p243"
+            self.voice_id = self.__randomSpeaker()
             self.whisper_model = whisper.load_model(self.model+".en")
         
 
@@ -112,7 +119,6 @@ class Voice:
 
                     qr = self.whisper_model.transcribe(self.queue_tmpfile, fp16=torch.cuda.is_available())
                     tmp_text = qr['text'].strip()
-                    print(tmp_text)
 
                     if len(tmp_text) == 0 or tmp_text == ".":
                         break
@@ -123,6 +129,7 @@ class Voice:
                         phrase_time = now
                         continue
 
+                    print(tmp_text)
                     wav = io.BytesIO(audio_data.get_wav_data())
                     with open(self.stt_tmpfile, 'a+b') as f:
                         f.write(wav.read())
@@ -138,6 +145,8 @@ class Voice:
 
                 tail_samples = bytes()
                 phrase_time = now
+            except KeyboardInterrupt:
+                return "exit"
             except:
                 tail_samples = bytes()
                 phrase_time = now
