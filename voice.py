@@ -63,11 +63,13 @@ class Voice:
     def set_lang(self, lang):
         if lang == "en":
             self.tts = TTS("tts_models/en/vctk/vits", progress_bar=False, gpu=True)
+            self.whisper_model = whisper.load_model(self.model+".en")
             self.voice_id = self.__randomSpeaker()
         elif lang == "zh":
             self.tts = TTS("tts_models/zh-CN/baker/tacotron2-DDC-GST",
                 vocoder_path="vocoder_models/en/ljspeech/multiband-melgan",
                 progress_bar=False, gpu=True)
+            self.whisper_model = whisper.load_model(self.model)
         else:
             return
 
@@ -83,12 +85,23 @@ class Voice:
         with open(self.stt_tmpfile, "wb") as f:
             f.write(audio_data.get_wav_data())
 
-        r = self.whisper_model.transcribe(self.stt_tmpfile, fp16=torch.cuda.is_available())
-        res_text = r['text'].strip()
+        try:
+            if self.lang == "zh":
+                r = self.whisper_model.transcribe(self.stt_tmpfile, language="zh", fp16=torch.cuda.is_available())
+            else:
+                r = self.whisper_model.transcribe(self.stt_tmpfile, fp16=torch.cuda.is_available())
+            res_text = r['text'].strip()
+        except:
+            res_text = ""
 
         return res_text
 
     def speech_recognise(self):
+        f = open(self.stt_tmpfile, 'w+b')
+        f.close()
+        f = open(self.queue_tmpfile, 'w+b')
+        f.close()
+
         def record_cb(_, audio:sr.AudioData) -> None:
             data = audio.get_raw_data()
             self.data_queue.put(data)
@@ -126,8 +139,14 @@ class Voice:
                     with open(self.queue_tmpfile, 'w+b') as f:
                         f.write(wav.read())
 
-                    qr = self.whisper_model.transcribe(self.queue_tmpfile, fp16=torch.cuda.is_available())
-                    tmp_text = qr['text'].strip()
+                    try:
+                        if self.lang == "zh":
+                            qr = self.whisper_model.transcribe(self.queue_tmpfile, language="zh", fp16=torch.cuda.is_available())
+                        else:
+                            qr = self.whisper_model.transcribe(self.queue_tmpfile, fp16=torch.cuda.is_available())
+                        tmp_text = qr['text'].strip()
+                    except:
+                        tmp_text = ""
 
                     if len(tmp_text) == 0 or tmp_text == ".":
                         break
@@ -162,10 +181,15 @@ class Voice:
                 continue
 
         stop(wait_for_stop = True)
-        r = self.whisper_model.transcribe(self.stt_tmpfile, fp16=torch.cuda.is_available())
-        res_text = r['text'].strip()
-        f = open(self.stt_tmpfile, 'w+b')
-        f.close()
+        try:
+            if self.lang == "zh":
+                r = self.whisper_model.transcribe(self.stt_tmpfile, language="zh", fp16=torch.cuda.is_available())
+            else:
+                r = self.whisper_model.transcribe(self.stt_tmpfile, fp16=torch.cuda.is_available())
+            res_text = r['text'].strip()
+        except:
+            res_text = ""
+
         return res_text            
 
     def speak_text(self, t):
