@@ -8,6 +8,7 @@ import utils
 
 def main():
     en = voice.Voice()
+    en.set_change_voice(True)
     zh = voice.Voice()
     zh.set_lang("zh")
 

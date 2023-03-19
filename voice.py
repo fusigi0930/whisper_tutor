@@ -32,6 +32,7 @@ class Voice:
         self.whisper_model = None
         self.mic_name = "sysdefault"
         self.data_queue = Queue()
+        self.enable_auto_change_voice = False
 
         if 'linux' in platform:
             for index, name in enumerate(sr.Microphone.list_microphone_names()):
@@ -56,6 +57,8 @@ class Voice:
         idx = random.randint(0, size-1)
         return self.tts.speakers[idx]
 
+    def set_change_voice(self, en):
+        self.enable_auto_change_voice = en
 
     def set_lang(self, lang):
         if lang == "en":
@@ -166,6 +169,10 @@ class Voice:
         return res_text            
 
     def speak_text(self, t):
+        if self.enable_auto_change_voice == True:
+            if self.lang == "en":
+                self.voice_id = self.__randomSpeaker()
+
         if self.lang == "en":
             self.tts.tts_to_file(text=t, speaker=self.voice_id, file_path=self.tts_tmpfile)
         elif self.lang == "zh":
