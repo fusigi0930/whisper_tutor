@@ -57,6 +57,19 @@ class Voice:
         idx = random.randint(0, size-1)
         return self.tts.speakers[idx]
 
+    def __recognise(self, file):
+        res_text = ""
+        try:
+            if self.lang == "zh":
+                r = self.whisper_model.transcribe(file, language="zh", fp16=torch.cuda.is_available())
+            else:
+                r = self.whisper_model.transcribe(file, fp16=torch.cuda.is_available())
+            res_text = r['text'].strip()
+        except:
+            res_text = ""
+
+        return res_text
+
     def set_change_voice(self, en):
         self.enable_auto_change_voice = en
 
@@ -85,14 +98,7 @@ class Voice:
         with open(self.stt_tmpfile, "wb") as f:
             f.write(audio_data.get_wav_data())
 
-        try:
-            if self.lang == "zh":
-                r = self.whisper_model.transcribe(self.stt_tmpfile, language="zh", fp16=torch.cuda.is_available())
-            else:
-                r = self.whisper_model.transcribe(self.stt_tmpfile, fp16=torch.cuda.is_available())
-            res_text = r['text'].strip()
-        except:
-            res_text = ""
+        self.__recognise(self.stt_tmpfile)
 
         return res_text
 
@@ -139,14 +145,7 @@ class Voice:
                     with open(self.queue_tmpfile, 'w+b') as f:
                         f.write(wav.read())
 
-                    try:
-                        if self.lang == "zh":
-                            qr = self.whisper_model.transcribe(self.queue_tmpfile, language="zh", fp16=torch.cuda.is_available())
-                        else:
-                            qr = self.whisper_model.transcribe(self.queue_tmpfile, fp16=torch.cuda.is_available())
-                        tmp_text = qr['text'].strip()
-                    except:
-                        tmp_text = ""
+                    tmp_text = self.__recognise(self.queue_tmpfile)
 
                     if len(tmp_text) == 0 or tmp_text == ".":
                         break
@@ -163,8 +162,8 @@ class Voice:
                         f.write(wav.read())
 
                 else:
-                    r = self.whisper_model.transcribe(self.stt_tmpfile, fp16=torch.cuda.is_available())
-                    res_text = r['text'].strip()
+                    res_text = self.__recognise(self.stt_tmpfile)
+
                     if res_text == None or len(res_text) > 0:
                         stop(wait_for_stop = True)
                         f = open(self.stt_tmpfile, 'w+b')
@@ -181,14 +180,7 @@ class Voice:
                 continue
 
         stop(wait_for_stop = True)
-        try:
-            if self.lang == "zh":
-                r = self.whisper_model.transcribe(self.stt_tmpfile, language="zh", fp16=torch.cuda.is_available())
-            else:
-                r = self.whisper_model.transcribe(self.stt_tmpfile, fp16=torch.cuda.is_available())
-            res_text = r['text'].strip()
-        except:
-            res_text = ""
+        res_text = self.__recognise(self.stt_tmpfile)
 
         return res_text            
 
