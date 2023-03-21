@@ -13,13 +13,13 @@ from openai official website. \
 # python 3.9
 sudo apt install python3.9
 sudo apt install python3-testresources ffmpeg
-sudo apt install libpython3.9-dev portaudio19-dev pavucontrol espeak
+sudo apt install libpython3.9-dev portaudio19-dev pavucontrol espeak libmpv-dev
 python -m pip install --upgrade pip
 python -m pip install --upgrade setuptools
 
 python -m venv env
 source env/bin/activate
-pip install -r requirements.txt
+pip install -r requirements_linux.txt
 ```
 
 ## Windows
@@ -29,13 +29,15 @@ ffmpeg: https://www.gyan.dev/ffmpeg/builds/ \
 python3.9: https://www.python.org/ftp/python/3.9.9/python-3.9.9-amd64.exe \
 espeak: https://espeak.sourceforge.net/download.html \
 visual studio 2022 community: https://visualstudio.microsoft.com/zh-hant/vs/community/ \
+wsl or git environment with git-lfs installed
 \
 **notice: ffmpeg and espeak have to add into the PATH variable**
 
 ```batch
 python.exe -m venv env
 call env/script/activate.bat
-pip install -r requirements.txt
+pip install -r requirements_win.txt
+copy lib\win\mpv-2.dll env\Script\
 
 ```
 

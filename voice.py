@@ -20,6 +20,7 @@ from datetime import datetime, timedelta
 from queue import Queue
 import copy
 import random
+import mpv
 
 class Voice:
     def __init__(self):
@@ -33,6 +34,7 @@ class Voice:
         self.mic_name = "sysdefault"
         self.data_queue = Queue()
         self.enable_auto_change_voice = False
+        self.speed = 1.0
 
         if 'linux' in platform:
             for index, name in enumerate(sr.Microphone.list_microphone_names()):
@@ -184,6 +186,21 @@ class Voice:
 
         return res_text            
 
+    def __get_wave_duration(self, file):
+        duration_seconds = 0
+        with wave.open(file) as w:
+            duration_seconds = w.getnframes() / w.getframerate()
+
+        return duration_seconds
+
+    def set_speed(self, speed):
+        if speed > 2:
+            speed = 2
+        elif speed < 0:
+            speed = 0.01
+
+        self.speed = speed
+
     def speak_text(self, t):
         if self.enable_auto_change_voice == True:
             if self.lang == "en":
@@ -194,18 +211,7 @@ class Voice:
         elif self.lang == "zh":
             self.tts.tts_to_file(text="，" + t + "。", file_path=self.tts_tmpfile)
 
-        w = wave.open(self.tts_tmpfile, "rb")
-        p = pyaudio.PyAudio()
-        s = p.open(format = p.get_format_from_width(w.getsampwidth()), 
-                channels = w.getnchannels(),
-                rate = w.getframerate(),
-                output = True)
-
-        data = w.readframes(1024)
-        while data:
-            s.write(data)
-            data = w.readframes(1024)
-
-        s.stop_stream()
-        s.close()
-        p.terminate()
+        p = mpv.MPV(ytdl = True)
+        p.speed = self.speed
+        p.play(self.tts_tmpfile)
+        p.wait_for_playback()

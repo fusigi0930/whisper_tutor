@@ -1,0 +1,13 @@
+pyaudio
+SpeechRecognition
+--extra-index-url https://download.pytorch.org/whl/cu116
+torch==1.12.1
+torchaudio==0.12.1
+TTS==0.11.1
+numpy==1.21.6
+wheel
+pyglet
+wave
+git+https://github.com/openai/whisper.git
+openai
+python-mpv==1.0.3
