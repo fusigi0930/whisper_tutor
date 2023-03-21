@@ -16,8 +16,9 @@ sudo apt install python3-testresources ffmpeg
 sudo apt install libpython3.9-dev portaudio19-dev pavucontrol espeak libmpv-dev git git-lfs
 python -m pip install --upgrade pip
 python -m pip install --upgrade setuptools
-
 git lfs install
+
+# in whisper_tutor
 python -m venv env
 source env/bin/activate
 pip install -r requirements_linux.txt
@@ -35,6 +36,8 @@ wsl or git environment with git-lfs installed
 **notice: ffmpeg and espeak have to add into the PATH variable**
 
 ```batch
+rem in whisper_tutor
+
 python.exe -m venv env
 call env/script/activate.bat
 pip install -r requirements_win.txt
@@ -52,17 +55,34 @@ e.g.
 chatgpt_key = "<your key>"
 ```
 
-# run the tutor
+# run
 
-## Linux
+## tutor
+use this command, that contains speech recognize, tts in local side and use chatGPT 3.5 api to get a chat robot response.
+
+### Linux
 ```shell
 source env/bin/activate
 python tutor_en.py 2>/dev/null
 ```
 
-## Windows
+### Windows
 ```
 call env/script/activate.bat
 python tutor_en.py
 ```
-use this command, that contains speech recognize, tts in local side and use chatGPT 3.5 api to get a chat robot response.
+
+## reader
+it only read the log file from tutor (actully, it can read nomral texts) with chatGPT api (so, no charge)
+
+### Linux
+```shell
+source env/bin/activate
+python read_en.py -f <file> 2>/dev/null
+```
+
+### Windows
+```
+call env/script/activate.bat
+python read_en.py -f <file>
+```
