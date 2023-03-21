@@ -13,10 +13,11 @@ from openai official website. \
 # python 3.9
 sudo apt install python3.9
 sudo apt install python3-testresources ffmpeg
-sudo apt install libpython3.9-dev portaudio19-dev pavucontrol espeak libmpv-dev
+sudo apt install libpython3.9-dev portaudio19-dev pavucontrol espeak libmpv-dev git git-lfs
 python -m pip install --upgrade pip
 python -m pip install --upgrade setuptools
 
+git lfs install
 python -m venv env
 source env/bin/activate
 pip install -r requirements_linux.txt
