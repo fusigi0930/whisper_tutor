@@ -60,29 +60,37 @@ chatgpt_key = "<your key>"
 ## tutor
 use this command, that contains speech recognize, tts in local side and use chatGPT 3.5 api to get a chat robot response.
 
+the following are command arguments
+speed: (optional) the TTS speed usually fast, use 0.91 multiple speed will clearly
+file: (optoinal) set the log file name, default uses the date information to filename
+
 ### Linux
 ```shell
 source env/bin/activate
-python tutor_en.py 2>/dev/null
+python tutor_en.py --speed 0.91 -file <logname> 2>/dev/null
 ```
 
 ### Windows
 ```
 call env/script/activate.bat
-python tutor_en.py
+python tutor_en.py --speed 0.91 -file <logname>
 ```
 
 ## reader
 it only read the log file from tutor (actully, it can read nomral texts) with chatGPT api (so, no charge)
 
+the following are command arguments
+speed: (optional) the TTS speed usually fast, use 0.91 multiple speed will clearly
+file: read filename
+
 ### Linux
 ```shell
 source env/bin/activate
-python read_en.py -f <file> 2>/dev/null
+python read_en.py -f <file> -s 0.91 2>/dev/null
 ```
 
 ### Windows
 ```
 call env/script/activate.bat
-python read_en.py -f <file>
+python read_en.py -f <file> -s 0.91
 ```
