@@ -5,6 +5,10 @@ class Log:
         filename = "log" + "-" + time.strftime("%Y%m%d-%H%M") + ".log"
         self.log_file = open(filename, "w")
 
+    def set_file(self, file):
+        self.log_file.close()
+        self.log_file = open(file, "w")
+
     def dlog(self, t):
         if self.log_file == None:
             return

@@ -5,8 +5,6 @@ import common as cm
 from contextlib import redirect_stderr
 import voice
 import utils
-import argparse
-
 
 def main():
     en = voice.Voice()
@@ -14,10 +12,13 @@ def main():
     zh = voice.Voice()
     zh.set_lang("zh")
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-f", "--file", help="read file", required=True)
+    args = cm.arguParse()
 
-    args = parser.parse_args()
+    if args.file == None:
+        print("please select a file")
+        sys.exit()
+
+    en.set_speed(args.speed)
 
     print("start reading file: {}".format(args.file))
     try:

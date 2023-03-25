@@ -12,7 +12,15 @@ def main():
     zh = voice.Voice()
     zh.set_lang("zh")
 
+    args = cm.arguParse()
+
     log = utils.Log()
+
+    if args.file != None:
+        log.set_file(args.file)
+
+    en.set_speed(args.speed)
+
     while True:
         print("say something........")
         text = en.speech_recognise()

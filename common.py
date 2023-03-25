@@ -4,6 +4,15 @@ import openai
 import config as c
 import re
 import binascii
+import argparse
+
+def arguParse():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", "--file", help="file name", required=False)
+    parser.add_argument("-s", "--speed", help="set the tts speak speed", type=float, default=0.95)
+
+    args = parser.parse_args()
+    return args
 
 def talk_to_chatgpt(text):
     openai.api_key = c.chatgpt_key
