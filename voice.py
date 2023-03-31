@@ -21,6 +21,7 @@ from queue import Queue
 import copy
 import random
 import mpv
+import re
 
 class Voice:
     def __init__(self):
@@ -207,6 +208,7 @@ class Voice:
                 self.voice_id = self.__randomSpeaker()
 
         if self.lang == "en":
+            t = re.sub("([^\s+])(\d+)(\.)", r"\1\n\2 \3", t)
             self.tts.tts_to_file(text=t, speaker=self.voice_id, file_path=self.tts_tmpfile)
         elif self.lang == "zh":
             self.tts.tts_to_file(text="，" + t + "。", file_path=self.tts_tmpfile)
