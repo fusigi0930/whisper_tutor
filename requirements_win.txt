@@ -11,3 +11,4 @@ wave
 git+https://github.com/openai/whisper.git
 openai
 python-mpv==1.0.3
+EdgeGPT

@@ -45,8 +45,10 @@ copy lib\win\mpv-2.dll env\Script\
 
 ```
 
-# set the openai API
-you need create a openai account and create a secret key by yourself in this url
+# set chat engine
+
+## set the openai API
+if you want to use the chatgpt-3.5 to your chat engine, you need create a openai account and create a secret key by yourself in this url
 https://platform.openai.com/account/api-keys
 
 copy your key into a file "config.py" with global variable chatgpt_key.
@@ -55,14 +57,22 @@ e.g.
 chatgpt_key = "<your key>"
 ```
 
+## set the EdgeGPT cookies
+or you can try this chat engine "edgegpt" that is based on the web communication to "bing.com", at the frist, you need refer the document
+"https://github.com/acheong08/EdgeGPT/tree/master/docs#getting-authentication-required", and copy the cookie json file to "bing-cookies.json"
+after that, we can use the edgegpt engine.
+
 # run
 
 ## tutor
 use this command, that contains speech recognize, tts in local side and use chatGPT 3.5 api to get a chat robot response.
 
-the following are command arguments
-speed: (optional) the TTS speed usually fast, use 0.91 multiple speed will clearly
-file: (optoinal) set the log file name, default uses the date information to filename
+the following are command arguments \
+-s, -speed: (optional) the TTS speed usually fast, use 0.91 multiple speed will clearly \
+-f, --file: (optional) set the log file name, default uses the date information to filename \
+-e, --engine: (optional) set the chat engine, default value is "bingchat" \
+             the value should be "chatgpt" or "bingchat", otherwise will set to "bingchat"
+
 
 ### Linux
 ```shell
