@@ -25,13 +25,17 @@ def main():
         with open(args.file) as f:
             text = f.readlines()
 
+            if args.output != None:
+                str = ''.join(text)
+                en.speak_text(str, args.output)
+
             for l in text:
                 if len(l) == 0:
                     continue
 
                 if l[0:3] == "me:":
                     l = l[4:]
-                else:
+                elif l[0:4] == "npc:":
                     l = l[5:]
 
                 if cm.isChinese(l):
@@ -39,8 +43,10 @@ def main():
                 else:
                     en.speak_text(l)
 
-    except Exception:
+    except Exception as e:
         print("file not found")
+        print(e)
+
 
 if __name__ == "__main__":
     main()

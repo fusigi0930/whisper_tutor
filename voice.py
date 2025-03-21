@@ -202,18 +202,22 @@ class Voice:
 
         self.speed = speed
 
-    def speak_text(self, t):
+    def speak_text(self, t, file=None):
         if self.enable_auto_change_voice == True:
             if self.lang == "en":
                 self.voice_id = self.__randomSpeaker()
 
+        f = self.tts_tmpfile
+        if file != None:
+            f = file
+
         if self.lang == "en":
-            t = re.sub("([^\s+])(\d+)(\.)", r"\1\n\2 \3", t)
-            self.tts.tts_to_file(text=t, speaker=self.voice_id, file_path=self.tts_tmpfile)
+            #t = re.sub("([^\s+])(\d+)(\.)", r"\1\n\2 \3", t)
+            self.tts.tts_to_file(text=t, speaker=self.voice_id, file_path=f)
         elif self.lang == "zh":
-            self.tts.tts_to_file(text="，" + t + "。", file_path=self.tts_tmpfile)
+            self.tts.tts_to_file(text="，" + t + "。", file_path=f)
 
         p = mpv.MPV(ytdl = True)
         p.speed = self.speed
-        p.play(self.tts_tmpfile)
+        p.play(f)
         p.wait_for_playback()

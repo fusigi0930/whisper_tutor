@@ -1,14 +1,15 @@
 pyaudio
 SpeechRecognition
---extra-index-url https://download.pytorch.org/whl/cu116
-torch==1.12.1
-torchaudio==0.12.1
+--extra-index-url https://download.pytorch.org/whl/cu118
+torch==2.2.0
+torchaudio==2.2.0
 TTS==0.11.1
-numpy==1.21.6
+numba==0.58.0
+numpy==1.22.1
 wheel
 pyglet
 wave
-git+https://github.com/openai/whisper.git
-openai
+git+https://github.com/openai/whisper.git@v20231117
+openai==0.27.2
 python-mpv==0.5.0
 EdgeGPT

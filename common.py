@@ -14,6 +14,7 @@ def arguParse():
     parser.add_argument("-f", "--file", help="file name", required=False)
     parser.add_argument("-s", "--speed", help="set the tts speak speed", type=float, default=0.95)
     parser.add_argument("-e", "--engine", help="select the chat engine", required=False)
+    parser.add_argument("-o", "--output", help="save tts audio file", required=False, default=None)
 
     args = parser.parse_args()
     return args
@@ -41,7 +42,11 @@ async def talk_to_bing(text):
     await bot.close()
 
     # print(':'.join(hex(ord(x))[2:] for x in res_text))
+    if len(jn['item']['messages']) < 2:
+        return "bing idle"
+
     res_text = re.sub(u'[\U0001f000-\U0001f9ff]', "", jn['item']['messages'][1]['text'])
+    res_text = re.sub("\*\*", "", res_text)
     return res_text
 
 def isChinese(text):
